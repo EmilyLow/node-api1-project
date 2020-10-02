@@ -19,21 +19,26 @@ server.get("/", (req, res) => {
 server.get("/users", (req, res) => {
 	// simulate a real call to a database to fetch data
 	const users = db.getUsers()
-	// return this "fake" data to the client (browser, insomnia, etc.)
-	res.json(users)
+    // return this "fake" data to the client (browser, insomnia, etc.)
+    if(users) {
+        res.json(users)
+    }
+    else {
+        res.status(500).json({errorMessage: "The users information could not be retrieved.",})
+    }
+	
 })
 
 server.get("/users/:id", (req, res) => {
 	const id = req.params.id
 	const user = db.getUserById(id)
 
+    //!! I don't know how to tell teh difference between a user with id not being found, and not retrieving user from database
 	// make sure user exists before we try to send it back
 	if (user) {
 		res.json(user)
 	} else {
-		res.status(404).json({
-			message: "User not found",
-		})
+		res.status(404).json({{ message: "The user with the specified ID does not exist." })
 	}
 })
 
