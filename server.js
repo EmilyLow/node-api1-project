@@ -1,8 +1,8 @@
-
+//!!Confused why we have to restart server each time
   
 // this import is now pulling from node_modules instead of the Node stdlib
 const express = require("express")
-// !!! Confused how this is enough to locate it
+
 const db = require("./database")
 
 // create an express server instance
@@ -39,7 +39,7 @@ server.get("/users/:id", (req, res) => {
 
 server.post("/users", (req, res) => {
 	const newUser = db.createUser({
-		name: req.body.name,
+		name: req.body.name, bio:req.body.bio
 	})
 
 	res.status(201).json(newUser)
