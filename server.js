@@ -38,7 +38,14 @@ server.get("/users/:id", (req, res) => {
 })
 
 server.post("/users", (req, res) => {
-	const newUser = db.createUser({
+    
+    if(!req.body.name || !req.body.bio) {
+        res.status(400).json({
+			errorMessage: "Please provide name and bio for the user.",
+		})
+    }
+    
+    const newUser = db.createUser({
 		name: req.body.name, bio:req.body.bio
 	})
 
