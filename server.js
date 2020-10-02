@@ -43,13 +43,26 @@ server.post("/users", (req, res) => {
         res.status(400).json({
 			errorMessage: "Please provide name and bio for the user.",
 		})
+    } 
+    //!! I don't know if this is returning correctly
+    //!! Also I don't know how to check for an error during saving
+    else {
+        const newUser = db.createUser({
+            name: req.body.name, bio:req.body.bio
+        })
+        //!! I don't know if this correctly checks if saved
+        if (!newUser) {
+            res.status(500).json({
+                errorMessage: "There was an error while saving the user to the database"
+            })
+        }
+        else {
+            res.status(201).json(newUser)
+        }
+       
     }
     
-    const newUser = db.createUser({
-		name: req.body.name, bio:req.body.bio
-	})
-
-	res.status(201).json(newUser)
+    
 })
 
 server.put("/users/:id", (req, res) => {
